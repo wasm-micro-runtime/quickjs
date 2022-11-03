@@ -84,6 +84,8 @@ enum {
     JS_TAG_CATCH_OFFSET = 5,
     JS_TAG_EXCEPTION   = 6,
     JS_TAG_FLOAT64     = 7,
+    JS_TAG_EXT_OBJ     = 8,
+    JS_TAG_EXT_FUNC    = 9
     /* any larger tag is FLOAT64 if JS_NAN_BOXING */
 };
 
@@ -1038,7 +1040,14 @@ int JS_SetModuleExport(JSContext *ctx, JSModuleDef *m, const char *export_name,
                        JSValue val);
 int JS_SetModuleExportList(JSContext *ctx, JSModuleDef *m,
                            const JSCFunctionListEntry *tab, int len);
-
+/* custom define functions, for call corresponding APIs */
+int JS_DefinePropertyDesc1(JSContext *ctx, JSValueConst obj, JSAtom prop,
+                           JSValueConst desc, int flags);
+int js_operator_typeof1(JSContext *ctx, JSValueConst op1);
+void JS_Dump1(JSRuntime *rt, JSValue *p);
+int JS_DumpWithBuffer(JSRuntime *rt, JSValue *p, void *buffer, uint32_t len);
+int JS_OrdinaryIsInstanceOf1(JSContext *ctx, JSValueConst val,
+                                   JSValueConst obj);
 #undef js_unlikely
 #undef js_force_inline
 
