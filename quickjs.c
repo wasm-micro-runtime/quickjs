@@ -12017,6 +12017,12 @@ static int JS_DumpValueShortWithBuffer(JSRuntime *rt, JSValueConst val, char *bu
             return -1;
         }
         break;
+    case JS_TAG_EXT_INFC:
+        res = snprintf(cur, remain, "EXT_INFC: %p", JS_VALUE_GET_PTR(val));
+        if (res >= remain) {
+            return -1;
+        }
+        break;
     default:
         res = snprintf(cur, remain, "[unknown tag %d]", tag);
         if (res >= remain) {
@@ -12362,6 +12368,9 @@ static __maybe_unused void JS_DumpValueShort(JSRuntime *rt,
         break;
     case JS_TAG_EXT_FUNC:
         printf("EXT_FUNC: %p", JS_VALUE_GET_PTR(val));
+        break;
+    case JS_TAG_EXT_INFC:
+        printf("EXT_INFC: %p", JS_VALUE_GET_PTR(val));
         break;
     default:
         printf("[unknown tag %d]", tag);

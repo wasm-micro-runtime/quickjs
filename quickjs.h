@@ -85,7 +85,8 @@ enum {
     JS_TAG_EXCEPTION   = 6,
     JS_TAG_FLOAT64     = 7,
     JS_TAG_EXT_OBJ     = 8,
-    JS_TAG_EXT_FUNC    = 9
+    JS_TAG_EXT_FUNC    = 9,
+    JS_TAG_EXT_INFC    = 10
     /* any larger tag is FLOAT64 if JS_NAN_BOXING */
 };
 
