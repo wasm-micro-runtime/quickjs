@@ -1042,6 +1042,8 @@ int JS_SetModuleExport(JSContext *ctx, JSModuleDef *m, const char *export_name,
 int JS_SetModuleExportList(JSContext *ctx, JSModuleDef *m,
                            const JSCFunctionListEntry *tab, int len);
 /* custom define functions, for call corresponding APIs */
+int set_array_length1(JSContext *ctx, JSObject *p, JSValue val,
+                      int flags);
 int JS_DefinePropertyDesc1(JSContext *ctx, JSValueConst obj, JSAtom prop,
                            JSValueConst desc, int flags);
 int js_operator_typeof1(JSContext *ctx, JSValueConst op1);

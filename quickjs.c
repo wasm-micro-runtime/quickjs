@@ -54488,6 +54488,12 @@ void JS_AddIntrinsicTypedArrays(JSContext *ctx)
 #endif
 }
 
+/* Wrapper API added by ts2wasm to expose static APIs */
+int set_array_length1(JSContext *ctx, JSObject *p, JSValue val,
+                      int flags)
+{
+    return set_array_length(ctx, p, val, flags);
+}
 
 int JS_DefinePropertyDesc1(JSContext *ctx, JSValueConst obj, JSAtom prop,	
                            JSValueConst desc, int flags) {	
