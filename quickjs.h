@@ -52,6 +52,7 @@ typedef struct JSObject JSObject;
 typedef struct JSClass JSClass;
 typedef uint32_t JSClassID;
 typedef uint32_t JSAtom;
+typedef int BOOL;
 
 #if INTPTR_MAX >= INT64_MAX
 #define JS_PTR64
@@ -1126,6 +1127,13 @@ extern const JSCFunctionListEntry js_map_proto_funcs[];
 uint32_t getClassIdFromObject(JSObject *obj);
 JSAtom find_atom(JSContext *ctx, const char *name);
 JSClassCall* getCallByClassId(JSRuntime *rt, uint32_t classId);
+JSValue JS_CallConstructorInternal(JSContext *ctx,
+                                   JSValueConst func_obj,
+                                   JSValueConst new_target,
+                                   int argc, JSValue *argv, 
+                                   int flags);
+JSValue JS_GetGlobalVar(JSContext *ctx, JSAtom prop,
+                               BOOL throw_ref_error); 
 #ifdef __cplusplus
 } /* extern "C" { */
 #endif
