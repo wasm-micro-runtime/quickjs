@@ -115,72 +115,6 @@
 #include <errno.h>
 #endif
 
-enum {
-    /* classid tag        */    /* union usage   | properties */
-    JS_CLASS_OBJECT = 1,        /* must be first */
-    JS_CLASS_ARRAY,             /* u.array       | length */
-    JS_CLASS_ERROR,
-    JS_CLASS_NUMBER,            /* u.object_data */
-    JS_CLASS_STRING,            /* u.object_data */
-    JS_CLASS_BOOLEAN,           /* u.object_data */
-    JS_CLASS_SYMBOL,            /* u.object_data */
-    JS_CLASS_ARGUMENTS,         /* u.array       | length */
-    JS_CLASS_MAPPED_ARGUMENTS,  /*               | length */
-    JS_CLASS_DATE,              /* u.object_data */
-    JS_CLASS_MODULE_NS,
-    JS_CLASS_C_FUNCTION,        /* u.cfunc */
-    JS_CLASS_BYTECODE_FUNCTION, /* u.func */
-    JS_CLASS_BOUND_FUNCTION,    /* u.bound_function */
-    JS_CLASS_C_FUNCTION_DATA,   /* u.c_function_data_record */
-    JS_CLASS_GENERATOR_FUNCTION, /* u.func */
-    JS_CLASS_FOR_IN_ITERATOR,   /* u.for_in_iterator */
-    JS_CLASS_REGEXP,            /* u.regexp */
-    JS_CLASS_ARRAY_BUFFER,      /* u.array_buffer */
-    JS_CLASS_SHARED_ARRAY_BUFFER, /* u.array_buffer */
-    JS_CLASS_UINT8C_ARRAY,      /* u.array (typed_array) */
-    JS_CLASS_INT8_ARRAY,        /* u.array (typed_array) */
-    JS_CLASS_UINT8_ARRAY,       /* u.array (typed_array) */
-    JS_CLASS_INT16_ARRAY,       /* u.array (typed_array) */
-    JS_CLASS_UINT16_ARRAY,      /* u.array (typed_array) */
-    JS_CLASS_INT32_ARRAY,       /* u.array (typed_array) */
-    JS_CLASS_UINT32_ARRAY,      /* u.array (typed_array) */
-#ifdef CONFIG_BIGNUM
-    JS_CLASS_BIG_INT64_ARRAY,   /* u.array (typed_array) */
-    JS_CLASS_BIG_UINT64_ARRAY,  /* u.array (typed_array) */
-#endif
-    JS_CLASS_FLOAT32_ARRAY,     /* u.array (typed_array) */
-    JS_CLASS_FLOAT64_ARRAY,     /* u.array (typed_array) */
-    JS_CLASS_DATAVIEW,          /* u.typed_array */
-#ifdef CONFIG_BIGNUM
-    JS_CLASS_BIG_INT,           /* u.object_data */
-    JS_CLASS_BIG_FLOAT,         /* u.object_data */
-    JS_CLASS_FLOAT_ENV,         /* u.float_env */
-    JS_CLASS_BIG_DECIMAL,       /* u.object_data */
-    JS_CLASS_OPERATOR_SET,      /* u.operator_set */
-#endif
-    JS_CLASS_MAP,               /* u.map_state */
-    JS_CLASS_SET,               /* u.map_state */
-    JS_CLASS_WEAKMAP,           /* u.map_state */
-    JS_CLASS_WEAKSET,           /* u.map_state */
-    JS_CLASS_MAP_ITERATOR,      /* u.map_iterator_data */
-    JS_CLASS_SET_ITERATOR,      /* u.map_iterator_data */
-    JS_CLASS_ARRAY_ITERATOR,    /* u.array_iterator_data */
-    JS_CLASS_STRING_ITERATOR,   /* u.array_iterator_data */
-    JS_CLASS_REGEXP_STRING_ITERATOR,   /* u.regexp_string_iterator_data */
-    JS_CLASS_GENERATOR,         /* u.generator_data */
-    JS_CLASS_PROXY,             /* u.proxy_data */
-    JS_CLASS_PROMISE,           /* u.promise_data */
-    JS_CLASS_PROMISE_RESOLVE_FUNCTION,  /* u.promise_function_data */
-    JS_CLASS_PROMISE_REJECT_FUNCTION,   /* u.promise_function_data */
-    JS_CLASS_ASYNC_FUNCTION,            /* u.func */
-    JS_CLASS_ASYNC_FUNCTION_RESOLVE,    /* u.async_function_data */
-    JS_CLASS_ASYNC_FUNCTION_REJECT,     /* u.async_function_data */
-    JS_CLASS_ASYNC_FROM_SYNC_ITERATOR,  /* u.async_from_sync_iterator_data */
-    JS_CLASS_ASYNC_GENERATOR_FUNCTION,  /* u.func */
-    JS_CLASS_ASYNC_GENERATOR,   /* u.async_generator_data */
-
-    JS_CLASS_INIT_COUNT, /* last entry for predefined classes */
-};
 
 /* number of typed array types */
 #define JS_TYPED_ARRAY_COUNT  (JS_CLASS_FLOAT64_ARRAY - JS_CLASS_UINT8C_ARRAY + 1)
@@ -1009,10 +943,6 @@ static JSValue js_call_bound_function(JSContext *ctx, JSValueConst func_obj,
 static JSValue JS_CallInternal(JSContext *ctx, JSValueConst func_obj,
                                JSValueConst this_obj, JSValueConst new_target,
                                int argc, JSValue *argv, int flags);
-static JSValue JS_CallConstructorInternal(JSContext *ctx,
-                                          JSValueConst func_obj,
-                                          JSValueConst new_target,
-                                          int argc, JSValue *argv, int flags);
 static JSValue JS_CallFree(JSContext *ctx, JSValue func_obj, JSValueConst this_obj,
                            int argc, JSValueConst *argv);
 static JSValue JS_InvokeFree(JSContext *ctx, JSValue this_val, JSAtom atom,
@@ -9547,7 +9477,7 @@ static int JS_DefineGlobalFunction(JSContext *ctx, JSAtom prop,
     return 0;
 }
 
-static JSValue JS_GetGlobalVar(JSContext *ctx, JSAtom prop,
+JSValue JS_GetGlobalVar(JSContext *ctx, JSAtom prop,
                                BOOL throw_ref_error)
 {
     JSObject *p;
@@ -19229,7 +19159,7 @@ static JSValue js_create_from_ctor(JSContext *ctx, JSValueConst ctor,
 }
 
 /* argv[] is modified if (flags & JS_CALL_FLAG_COPY_ARGV) = 0. */
-static JSValue JS_CallConstructorInternal(JSContext *ctx,
+JSValue JS_CallConstructorInternal(JSContext *ctx,
                                           JSValueConst func_obj,
                                           JSValueConst new_target,
                                           int argc, JSValue *argv, int flags)
@@ -36389,7 +36319,7 @@ static int check_exception_free(JSContext *ctx, JSValue obj)
     return JS_IsException(obj);
 }
 
-static JSAtom find_atom(JSContext *ctx, const char *name)
+JSAtom find_atom(JSContext *ctx, const char *name)
 {
     JSAtom atom;
     int len;
@@ -46579,7 +46509,7 @@ static const JSCFunctionListEntry js_map_funcs[] = {
     JS_CGETSET_DEF("[Symbol.species]", js_get_this, NULL ),
 };
 
-static const JSCFunctionListEntry js_map_proto_funcs[] = {
+const JSCFunctionListEntry js_map_proto_funcs[] = {
     JS_CFUNC_MAGIC_DEF("set", 2, js_map_set, 0 ),
     JS_CFUNC_MAGIC_DEF("get", 1, js_map_get, 0 ),
     JS_CFUNC_MAGIC_DEF("has", 1, js_map_has, 0 ),
@@ -46599,7 +46529,7 @@ static const JSCFunctionListEntry js_map_iterator_proto_funcs[] = {
     JS_PROP_STRING_DEF("[Symbol.toStringTag]", "Map Iterator", JS_PROP_CONFIGURABLE ),
 };
 
-static const JSCFunctionListEntry js_set_proto_funcs[] = {
+const JSCFunctionListEntry js_set_proto_funcs[] = {
     JS_CFUNC_MAGIC_DEF("add", 1, js_map_set, MAGIC_SET ),
     JS_CFUNC_MAGIC_DEF("has", 1, js_map_has, MAGIC_SET ),
     JS_CFUNC_MAGIC_DEF("delete", 1, js_map_delete, MAGIC_SET ),
@@ -54526,3 +54456,11 @@ int JS_OrdinaryIsInstanceOf1(JSContext *ctx, JSValueConst val,
                                    JSValueConst obj) {	
     return JS_OrdinaryIsInstanceOf(ctx, val, obj);	
 }	
+
+uint32_t getClassIdFromObject(JSObject *obj) {
+    return obj->class_id;
+}
+
+JSClassCall* getCallByClassId(JSRuntime *rt, uint32_t classId) {
+    return rt->class_array[classId].call;
+}
