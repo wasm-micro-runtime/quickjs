@@ -46529,7 +46529,7 @@ static const JSCFunctionListEntry js_map_iterator_proto_funcs[] = {
     JS_PROP_STRING_DEF("[Symbol.toStringTag]", "Map Iterator", JS_PROP_CONFIGURABLE ),
 };
 
-static const JSCFunctionListEntry js_set_proto_funcs[] = {
+const JSCFunctionListEntry js_set_proto_funcs[] = {
     JS_CFUNC_MAGIC_DEF("add", 1, js_map_set, MAGIC_SET ),
     JS_CFUNC_MAGIC_DEF("has", 1, js_map_has, MAGIC_SET ),
     JS_CFUNC_MAGIC_DEF("delete", 1, js_map_delete, MAGIC_SET ),

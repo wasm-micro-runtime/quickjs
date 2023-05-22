@@ -1123,6 +1123,7 @@ enum {
 };
 
 extern const JSCFunctionListEntry js_map_proto_funcs[];
+extern const JSCFunctionListEntry js_set_proto_funcs[];
 
 uint32_t getClassIdFromObject(JSObject *obj);
 JSAtom find_atom(JSContext *ctx, const char *name);
