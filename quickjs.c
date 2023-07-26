@@ -54464,3 +54464,8 @@ uint32_t getClassIdFromObject(JSObject *obj) {
 JSClassCall* getCallByClassId(JSRuntime *rt, uint32_t classId) {
     return rt->class_array[classId].call;
 }
+
+int JS_ExecutePendingJob2(JSContext *ctx){
+    JSContext *ctx1;
+    return JS_ExecutePendingJob(JS_GetRuntime(ctx), &ctx1);
+}
