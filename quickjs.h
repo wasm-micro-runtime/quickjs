@@ -1135,7 +1135,6 @@ JSValue JS_CallConstructorInternal(JSContext *ctx,
                                    int flags);
 JSValue JS_GetGlobalVar(JSContext *ctx, JSAtom prop,
                                BOOL throw_ref_error);
-
 int JS_ExecutePendingJob2(JSContext *ctx);
 
 #ifdef __cplusplus
