@@ -8873,7 +8873,7 @@ static int JS_CreateProperty(JSContext *ctx, JSObject *p,
                 /* update the length field */
                 plen = &p->prop[0];
                 ret = JS_ToUint32(ctx, &len, plen->u.value);
-                assert(ret);
+                assert(ret == 0);
                 if ((idx + 1) > len) {
                     pslen = get_shape_prop(p->shape);
                     if (unlikely(!(pslen->flags & JS_PROP_WRITABLE)))
